@@ -153,3 +153,34 @@ p2 <- ggplot(penguins_clean, aes(x = flipper_length_mm, y = body_mass_g, color =
 
 ggsave('Models.jpg',
        width = 14, height = 6, dpi = 600)
+
+
+# Estimated marginal means ------------------------------------------------
+
+# Load the libraries
+library(palmerpenguins)
+library(emmeans)   
+library(ggplot2)  
+library(dplyr)
+
+# Load the data
+data(penguins)
+# Let's look at the structure and handle missing values
+penguins_clean <- penguins %>%
+  select(species, bill_length_mm, body_mass_g) %>%
+  na.omit() # Remove rows with NA values for our variables
+
+# Look at the raw means for bill length by species
+penguins_clean %>%
+  group_by(species) %>%
+  summarise(Raw_Mean_Bill_Length = mean(bill_length_mm))
+
+# Fit a model: Bill Length explained by Species and Body Mass
+model <- lm(bill_length_mm ~ species + body_mass_g, data = penguins_clean)
+
+# View the model summary
+summary(model)
+
+# Calculate EMMs for each species
+species_emmeans <- emmeans(model, specs = ~ species)
+species_emmeans
