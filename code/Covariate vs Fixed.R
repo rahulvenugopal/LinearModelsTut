@@ -9,6 +9,7 @@ library(skimr)
 library(psych)
 library(ggthemes)
 library(easystats)
+library(patchwork)
 
 # Dataset
 penguins_clean <- penguins %>% 
@@ -40,21 +41,46 @@ my_theme <- theme_fivethirtyeight(base_family = "Fira Sans") +
 
 theme_set(my_theme)
 
+
+# Simpson's paradox -------------------------------------------------------
+
+p1 <- ggplot(penguins, 
+       aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(title = "Penguin beak dimensions",
+       y = "Bill length (mm)",
+       x = "Bill depth (mm)")
+
+p2 <- ggplot(penguins, 
+       aes(x = bill_length_mm, y = bill_depth_mm, color = species)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(title = "Penguin beak dimensions",
+       y = "Bill length (mm)",
+       x = "Bill depth (mm)")
+
+p1 + p2
+
 # Visuals
 # Case A plot
 ggplot(penguins_clean, aes(x = species, y = body_mass_g, fill = species)) +
   geom_boxplot() +
   geom_jitter(alpha = 0.5) +
-  labs(title = "Body mass across species")
+  labs(title = "Body mass across species",
+       y = "Body mass (g)")
 
 ggsave('Bodymass_species.jpg',
        width = 6, height = 6, dpi = 600)
 
 # Case B plot
-ggplot(penguins_clean, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+ggplot(penguins_clean, 
+       aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
   geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  labs(title = "Flipper length in each species")
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(title = "Flipper length in each species",
+       y = "Body mass (g)",
+       x = "Flipper length (mm)")
 
 ggsave('Bodymass_FlipperLength_Species.jpg',
        width = 6, height = 6, dpi = 600)
