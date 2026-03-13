@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Data Analysis for Neuroscientists in R</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+background:#f5efe6;
+color:#1a1a1a;
+line-height:1.7;
+-webkit-font-smoothing:antialiased;
+overflow-x:hidden;
+}
+
+p{text-align:justify}
+
+section{
+padding:12px 20px;
+max-width:1150px;
+margin:auto;
+}
+
+/* HERO */
+.hero{
+min-height:80vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:40px;
+background:radial-gradient(circle at 50% 20%,#ffffff 0%,#f5efe6 70%);
+position:relative;
+}
+
+.hero::after{
+content:"";
+position:absolute;
+width:600px;
+height:600px;
+background:radial-gradient(circle,#3b82f6 0%,transparent 70%);
+opacity:.15;
+filter:blur(120px);
+top:-200px;
+}
+
+.hero h1{font-size:64px;font-weight:600;letter-spacing:-0.03em;margin-bottom:20px}
+.hero p{font-size:22px;max-width:720px;opacity:.85}
+
+.badges{margin-top:30px}
+.badge{display:inline-block;padding:8px 16px;margin:6px;border-radius:999px;background:#ffffff;border:1px solid #e6dfd5;font-size:14px}
+
+.scroll{margin-top:40px;opacity:.5;font-size:14px;animation:float 2s infinite ease-in-out}
+
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+h2{font-size:40px;letter-spacing:-0.02em;margin-bottom:16px}
+
+.lead{font-size:20px;opacity:.9;max-width:850px;margin:auto}
+
+.philosophy{text-align:center}
+
+.highlight{background:linear-gradient(90deg,#60a5fa,#a78bfa);-webkit-background-clip:text;color:transparent}
+
+/* ROUTE MAP */
+.route-container{
+margin-top:22px;
+position:relative;
+background-image:radial-gradient(circle at 20% 20%,rgba(0,0,0,0.03) 1px,transparent 1px),radial-gradient(circle at 80% 60%,rgba(0,0,0,0.03) 1px,transparent 1px);
+background-size:120px 120px;
+}
+
+.route-grid{
+margin-top:4px;
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:6px;
+position:relative;
+}
+
+
+
+100%{opacity:0;transform:scale(.6)}}
+
+.pin{text-align:center;position:relative;cursor:pointer}
+
+.pin-icon{
+width:18px;height:18px;background:#e53935;border-radius:50%;margin:auto;
+position:relative;box-shadow:0 0 10px rgba(229,57,53,.8);transition:.25s;
+}
+
+.pin.visited .pin-icon{animation:pinGlow 1s ease-out;transform:translateY(-4px)}
+
+@keyframes pinGlow{0%{box-shadow:0 0 0 rgba(229,57,53,0)}50%{box-shadow:0 0 18px rgba(229,57,53,1)}100%{box-shadow:0 0 10px rgba(229,57,53,.8)}}
+
+.pin-icon::after{
+content:"";position:absolute;left:50%;top:16px;transform:translateX(-50%);
+width:2px;height:16px;background:#e53935;border-radius:2px;
+}
+
+.pin-label{
+margin-top:18px;background:#ffffff;border:1px solid #e6dfd5;padding:10px 14px;border-radius:14px;
+max-width:150px;margin-left:auto;margin-right:auto;box-shadow:0 6px 16px rgba(0,0,0,.08);
+opacity:0;transform:translateY(10px);transition:.25s;pointer-events:none;
+}
+
+.pin-label h3{font-size:15px;margin-bottom:4px}
+.pin-label p{font-size:13px;opacity:.8;text-align:center}
+
+.pin:hover .pin-label{opacity:1;transform:translateY(0)}
+.pin.active .pin-label{opacity:1;transform:translateY(0)}
+
+/* OBJECTIVES */
+.objectives ul{padding-left:20px}
+.objectives li{margin-bottom:14px;font-size:17px;text-align:justify}
+
+/* RESOURCES */
+.resources ul{padding-left:20px}
+.resources li{margin-bottom:12px;opacity:.85;text-align:justify}
+
+.footer{text-align:center;padding:40px 20px;opacity:.6;font-size:14px;border-top:1px solid #e6dfd5}
+
+
+
+100%{opacity:0;transform:translateY(-10px)}}
+
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+
+<h1>Data Analysis for <span class="highlight">Neuroscientists</span> in R</h1>
+
+<p>
+A modern introduction to statistical modeling, reproducible workflows, and mixed‑effects thinking for neuroscience research.
+</p>
+
+<div class="badges">
+<span class="badge">10 Hours</span>
+<span class="badge">2 Weeks</span>
+<span class="badge">16:30 – 17:30</span>
+<span class="badge">Hands‑on with R</span>
+</div>
+
+
+
+<div class="scroll">Scroll to explore</div>
+
+</div>
+
+<section class="philosophy">
+
+<h2>One Model to Rule Them All</h2>
+
+<p class="lead">
+Most statistics courses present t‑tests, correlations, ANOVA, and regression as unrelated tools. This course reveals the deeper structure: <span class="highlight">they are all the same model.</span> Understanding the linear model framework makes advanced neuroscience analysis — including mixed models — dramatically easier.
+</p>
+
+<p class="lead">
+Participants will also learn how to move from fragile spreadsheet workflows to fully reproducible analysis pipelines in R.
+</p>
+
+</section>
+
+<section>
+
+
+
+<div class="route-container">
+
+
+
+
+
+
+<div class="route-grid">
+
+<div class="pin" onmouseenter="activatePin(this)">
+<div class="pin-icon"></div>
+<div class="pin-label">
+<h3>Day 1</h3>
+<p>The R Multiverse</p>
+</div>
+</div>
+
+<div class="pin" onmouseenter="activatePin(this)">
+<div class="pin-icon"></div>
+<div class="pin-label">
+<h3>Day 2</h3>
+<p>The Mean as a Model</p>
+</div>
+</div>
+
+<div class="pin" onmouseenter="activatePin(this)">
+<div class="pin-icon"></div>
+<div class="pin-label">
+<h3>Day 3</h3>
+<p>Simple Regression</p>
+</div>
+</div>
+
+<div class="pin" onmouseenter="activatePin(this)">
+<div class="pin-icon"></div>
+<div class="pin-label">
+<h3>Day 4</h3>
+<p>Everything is a GLM</p>
+</div>
+</div>
+
+<div class="pin" onmouseenter="activatePin(this)">
+<div class="pin-icon"></div>
+<div class="pin-label">
+<h3>Day 5</h3>
+<p>ANOVA as Regression</p>
+</div>
+</div>
+
+<div class="pin" onmouseenter="activatePin(this)">
+<div class="pin-icon"></div>
+<div class="pin-label">
+<h3>Day 6</h3>
+<p>Effect Sizes</p>
+</div>
+</div>
+
+<div class="pin" onmouseenter="activatePin(this)">
+<div class="pin-icon"></div>
+<div class="pin-label">
+<h3>Day 7</h3>
+<p>Covariates (ANCOVA)</p>
+</div>
+</div>
+
+<div class="pin" onmouseenter="activatePin(this)">
+<div class="pin-icon"></div>
+<div class="pin-label">
+<h3>Day 8</h3>
+<p>Robust Statistics</p>
+</div>
+</div>
+
+<div class="pin" onmouseenter="activatePin(this)">
+<div class="pin-icon"></div>
+<div class="pin-label">
+<h3>Day 9</h3>
+<p>Linear Mixed Models I</p>
+</div>
+</div>
+
+<div class="pin" onmouseenter="activatePin(this)">
+<div class="pin-icon"></div>
+<div class="pin-label">
+<h3>Day 10</h3>
+<p>Linear Mixed Models II</p>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="objectives">
+
+<h2>Learning Objectives</h2>
+
+<ul>
+<li><strong>Reproducible Workflows</strong> — move from spreadsheets to scripted pipelines using modern R tools.</li>
+<li><strong>Unified Statistical Thinking</strong> — understand t‑tests, ANOVA, and correlation as special cases of regression.</li>
+<li><strong>Handling Complex Data</strong> — analyse nested neuroscience datasets using linear mixed models.</li>
+</ul>
+
+</section>
+
+
+
+<section class="resources">
+
+<h2>Further Reading</h2>
+
+<ul>
+<li>Altman & Krzywinski — <em>Beyond P Values: Everyday Data Analysis</em></li>
+<li>Andrew Gelman — <em>Statistical Modeling, Causal Inference, and Social Science</em></li>
+<li>Andy Field — <em>Discovering Statistics Using R</em></li>
+</ul>
+
+</section>
+
+<div class="footer">
+Designed for neuroscientists transitioning to modern reproducible data analysis.
+</div>
+
+<script>
+function activatePin(el){el.classList.add('active')}
+
+const pins=[...document.querySelectorAll('.pin')]
+
+pins.forEach(p=>{
+  p.addEventListener('mouseenter',()=>{
+    p.classList.add('active','visited')
+  })
+})
+
+window.addEventListener('scroll',()=>{
+const y=window.scrollY
+const hero=document.querySelector('.hero')
+hero.style.transform=`translateY(${y*0.08}px)`
+})
+
+</script>
+
+</body>
+</html>
