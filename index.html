@@ -1,353 +1,730 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Data Analysis for Neuroscientists in R</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Analysis for Neuroscientists in R</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-<style>
-*{box-sizing:border-box}
+    <style>
+        /* 1. Deep, Meditative Color Palette & Reset */
+        :root {
+            --bg-deep: #050814;
+            --text-main: #E2E8F0;
+            --text-muted: #94A3B8;
+            --accent-glow: rgba(99, 102, 241, 0.4);
+            --accent-teal: rgba(20, 184, 166, 0.4);
+            --accent-solid: #818CF8;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
 
-body{
-margin:0;
-font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
-background:#f5efe6;
-color:#1a1a1a;
-line-height:1.7;
--webkit-font-smoothing:antialiased;
-overflow-x:hidden;
-}
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-p{text-align:justify}
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
 
-section{
-padding:12px 20px;
-max-width:1150px;
-margin:auto;
-}
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+        }
 
-/* HERO */
-.hero{
-min-height:80vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-padding:40px;
-background:radial-gradient(circle at 50% 20%,#ffffff 0%,#f5efe6 70%);
-position:relative;
-}
+        p { text-align: justify; }
 
-.hero::after{
-content:"";
-position:absolute;
-width:600px;
-height:600px;
-background:radial-gradient(circle,#3b82f6 0%,transparent 70%);
-opacity:.15;
-filter:blur(120px);
-top:-200px;
-}
+        section {
+            padding: 2rem 10%;
+            max-width: 1200px;
+            margin: auto;
+            position: relative;
+            z-index: 2;
+        }
 
-.hero h1{font-size:64px;font-weight:600;letter-spacing:-0.03em;margin-bottom:20px}
-.hero p{font-size:22px;max-width:720px;opacity:.85}
+        /* 2. Fluid Waveform / Neural Background */
+        .ambient-background {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle at 15% 50%, var(--accent-glow), transparent 50%),
+                        radial-gradient(circle at 85% 30%, var(--accent-teal), transparent 50%);
+            filter: blur(80px);
+            z-index: -2;
+            animation: breathe 15s infinite alternate ease-in-out;
+        }
 
-.badges{margin-top:30px}
-.badge{display:inline-block;padding:8px 16px;margin:6px;border-radius:999px;background:#ffffff;border:1px solid #e6dfd5;font-size:14px}
+        @keyframes breathe {
+            0% { transform: scale(1); opacity: 0.6; }
+            100% { transform: scale(1.1); opacity: 1; }
+        }
 
-h2{font-size:40px;letter-spacing:-0.02em;margin-bottom:16px}
+        canvas {
+            position: fixed;
+            top: 0; left: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
 
-.lead{font-size:20px;opacity:.9;max-width:850px;margin:auto}
+        /* HERO */
+        .hero {
+            min-height: 75vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+            position: relative;
+            z-index: 2;
+        }
 
-.philosophy{text-align:center}
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(129, 140, 248, 0.3);
+            line-height: 1.1;
+        }
 
-.highlight{background:linear-gradient(90deg,#60a5fa,#a78bfa);-webkit-background-clip:text;color:transparent}
+        .hero p {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            max-width: 720px;
+            color: var(--text-muted);
+            font-style: italic;
+            text-align: center;
+        }
 
-/* ROUTE MAP */
-.route-container{
-margin-top:22px;
-position:relative;
-background-image:radial-gradient(circle at 20% 20%,rgba(0,0,0,0.03) 1px,transparent 1px),radial-gradient(circle at 80% 60%,rgba(0,0,0,0.03) 1px,transparent 1px);
-background-size:120px 120px;
-}
+        .highlight {
+            color: var(--accent-solid);
+            text-shadow: 0 0 15px var(--accent-glow);
+        }
 
-.route-grid{
-margin-top:4px;
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:6px;
-position:relative;
-}
+        .badges {
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
 
+        .badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 999px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
 
+        .badge:hover {
+            border-color: var(--accent-solid);
+            box-shadow: 0 0 15px var(--accent-glow);
+            transform: translateY(-2px);
+        }
 
-100%{opacity:0;transform:scale(.6)}}
+        /* HERO CALL TO ACTION (CTA) */
+        .cta-container {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            z-index: 10;
+        }
 
-.pin{text-align:center;position:relative;cursor:pointer}
+        .matrix-quote {
+            font-size: 0.95rem;
+            color: rgba(20, 184, 166, 0.9); 
+            font-style: italic;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 10px rgba(20, 184, 166, 0.3);
+            margin: 0;
+            text-align: center;
+        }
 
-.pin-icon{
-width:18px;height:18px;background:#e53935;border-radius:50%;margin:auto;
-position:relative;box-shadow:0 0 10px rgba(229,57,53,.8);transition:.25s;
-}
+        .register-btn {
+            display: inline-block;
+            padding: 14px 36px;
+            background: rgba(129, 140, 248, 0.1);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            border: 1px solid var(--accent-solid);
+            border-radius: 999px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 15px var(--accent-glow);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
 
-.pin.visited .pin-icon{animation:pinGlow 1s ease-out;transform:translateY(-4px)}
+        .register-btn:hover {
+            background: var(--accent-solid);
+            box-shadow: 0 0 30px var(--accent-solid);
+            transform: translateY(-3px);
+            color: #050814; 
+        }
 
-@keyframes pinGlow{0%{box-shadow:0 0 0 rgba(229,57,53,0)}50%{box-shadow:0 0 18px rgba(229,57,53,1)}100%{box-shadow:0 0 10px rgba(229,57,53,.8)}}
+        /* SECTION TITLES & LEAD TEXT */
+        h2 {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
 
-.pin-icon::after{
-content:"";position:absolute;left:50%;top:16px;transform:translateX(-50%);
-width:2px;height:16px;background:#e53935;border-radius:2px;
-}
+        .philosophy { text-align: center; }
+        .philosophy h2 { display: inline-block; }
 
-.pin-label{
-margin-top:18px;
-background:#ffffff;
-border:1px solid #e6dfd5;
-padding:12px 16px;
-border-radius:14px;
-width:170px;
-min-height:150px;
+        .lead {
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            color: var(--text-muted);
+            max-width: 850px;
+            margin: 0 auto 1.5rem auto;
+            text-align: center;
+        }
 
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
+        /* ROUTE MAP */
+        .route-container {
+            margin-top: 20px;
+            position: relative;
+            padding: 1rem 0;
+        }
 
-box-shadow:0 6px 16px rgba(0,0,0,.08);
+        .route-container::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 5%;
+            right: 5%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
+            z-index: -1;
+        }
 
-opacity:0;
-transform:translateY(10px);
-transition:.25s;
-pointer-events:none;
-}
+        .route-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            position: relative;
+        }
 
-.pin-label h3{
-font-size:16px;
-margin:0;
-line-height:1.2;
-}
+        .pin {
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-.pin-label p{
-font-size:13px;
-opacity:.8;
-text-align:center;
-margin-top:4px;
-line-height:1.3;
+        .pin-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--glass-bg);
+            border: 2px solid var(--accent-solid);
+            border-radius: 50%;
+            margin: auto;
+            position: relative;
+            box-shadow: 0 0 10px var(--accent-glow);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 2;
+        }
 
-display:-webkit-box;
--webkit-line-clamp:2;
--webkit-box-orient:vertical;
-overflow:hidden;
-}
+        .pin:hover .pin-icon, .pin.flipped .pin-icon {
+            background: var(--accent-solid);
+            box-shadow: 0 0 20px var(--accent-solid);
+            transform: scale(1.2);
+        }
 
-display:-webkit-box;
--webkit-line-clamp:2;
--webkit-box-orient:vertical;
-overflow:hidden;
-}
+        /* FLIP MECHANICS */
+        .flip-card-container {
+            width: 100%;
+            height: 200px;
+            margin-top: 20px;
+            perspective: 1000px;
+        }
 
-.pin:hover .pin-label{opacity:1;transform:translateY(0)}
-.pin.active .pin-label{opacity:1;transform:translateY(0)}
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+        }
 
-/* OBJECTIVES */
-.objectives ul{padding-left:20px}
-.objectives li{margin-bottom:14px;font-size:17px;text-align:justify}
+        @media (hover: hover) {
+            .pin:hover .flip-card-inner {
+                transform: rotateY(180deg);
+            }
+            .pin:hover .flip-card-front {
+                opacity: 0;
+                transition: opacity 0s 0.2s; 
+            }
+        }
 
-/* RESOURCES */
-.resources ul{padding-left:20px}
-.resources li{margin-bottom:12px;opacity:.85;text-align:justify}
+        .pin.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .pin.flipped .flip-card-front {
+            opacity: 0;
+            transition: opacity 0s 0.2s; 
+        }
 
-.footer{text-align:center;padding:40px 20px;opacity:.6;font-size:14px;border-top:1px solid #e6dfd5}
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
+        .flip-card-front {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            opacity: 1;
+            transition: opacity 0s 0.2s; 
+            /* Fix horizontal alignment: pushes content to start from the exact same top baseline */
+            justify-content: flex-start;
+            padding-top: 2.5rem; 
+        }
 
+        .flip-card-back {
+            transform: rotateY(180deg);
+            background: rgba(13, 17, 33, 0.98); 
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            /* Keep paragraph nicely centered vertically */
+            justify-content: center; 
+        }
 
-100%{opacity:0;transform:translateY(-10px)}}
+        .flip-card-front h3 {
+            font-size: 1.2rem;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
 
-</style>
+        .flip-card-front h4 {
+            font-size: 1rem;
+            color: var(--accent-solid);
+            margin-top: 8px;
+            font-weight: 500;
+            line-height: 1.3;
+        }
+
+        .flip-card-back p {
+            font-size: 0.85rem;
+            color: var(--text-main);
+            text-align: center;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        /* LISTS (Objectives & Resources) */
+        .objectives ul, .resources ul { padding-left: 20px; list-style: none; }
+        .objectives li, .resources li {
+            margin-bottom: 16px;
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            position: relative;
+            padding-left: 35px;
+            /* FIXED: Fully justified text for the learning objectives */
+            text-align: justify; 
+            line-height: 1.5;
+        }
+        .objectives li::before, .resources li::before {
+            content: "✦";
+            position: absolute;
+            left: 0;
+            color: var(--accent-solid);
+            font-size: 1.4rem;
+            line-height: 1.1;
+        }
+        .objectives strong { color: #fff; font-weight: 600; }
+
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-muted);
+            font-size: 14px;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ========================================= */
+        /* MOBILE RESPONSIVENESS                     */
+        /* ========================================= */
+        @media (max-width: 900px) {
+            .route-grid { grid-template-columns: repeat(3, 1fr); }
+            .route-container::before { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            section { padding: 1.5rem 5%; }
+            
+            .route-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .route-container::after {
+                content: '';
+                position: absolute;
+                top: 0; bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 2px;
+                background: linear-gradient(to bottom, transparent, var(--glass-border) 5%, var(--glass-border) 95%, transparent);
+                z-index: -1;
+            }
+
+            .pin { flex-direction: column; }
+            .pin-icon { margin-bottom: -10px; z-index: 3; }
+            .flip-card-container { height: 160px; }
+            .cta-container { margin-top: 30px; }
+            /* Center elements slightly differently on mobile if desired */
+            .flip-card-front { padding-top: 1.5rem; } 
+        }
+
+        @media (max-width: 480px) {
+            .hero { padding: 40px 20px; }
+            .badges { flex-direction: column; width: 100%; align-items: stretch; }
+            .badge { text-align: center; }
+            .flip-card-container { height: 180px; } 
+            .register-btn { width: 100%; text-align: center; }
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="hero">
+    <div class="ambient-background"></div>
+    <canvas id="neural-canvas"></canvas>
 
-<h1>Data Analysis for <span class="highlight">Neuroscientists</span> in R</h1>
+    <div class="hero">
+        <h1>Data Analysis for <span class="highlight">Neuroscientists</span> in R</h1>
+        <p>A modern introduction to statistical modeling, visualisation and mixed‑effects models for neuroscience research.</p>
 
-<p>
-A modern introduction to statistical modeling, visualisation and mixed‑effects models for neuroscience research.
-</p>
+        <div class="badges">
+            <span class="badge">10 Hours</span>
+            <span class="badge">2 Weeks</span>
+            <span class="badge">16:30 – 17:30 IST</span>
+            <span class="badge">Hands‑on with R in RStudio</span>
+        </div>
 
-<div class="badges">
-<span class="badge">10 Hours</span>
-<span class="badge">2 Weeks</span>
-<span class="badge">16:30 – 17:30 IST</span>
-<span class="badge">Hands‑on with R in RStudio</span>
-</div>
+        <div class="cta-container">
+            <p class="matrix-quote">“Have you ever seen a hacker with a mouse?”</p>
+            <a href="https://forms.google.com/" target="_blank" class="register-btn">Register Here (n=20) </a>
+        </div>
+    </div>
 
-</div>
+    <section class="philosophy">
+        <h2>One Model to Rule Them All</h2>
+        <p class="lead">
+            Most statistics courses present t‑tests, correlations, ANOVA, and regression as unrelated tools. This course reveals the deeper structure: <span class="highlight">they are all the same model.</span> Understanding the linear model framework makes advanced neuroscience analysis efficient including mixed models.
+        </p>
+    </section>
 
-<section class="philosophy">
+    <section>
+        <h2 style="text-align: center; display: block; border: none; margin-bottom: 0.5rem;">Course Roadmap</h2>
+        <div class="route-container">
+            <div class="route-grid">
 
-<h2>One Model to Rule Them All</h2>
+                <div class="pin" onclick="toggleFlip(event, this)">
+                    <div class="pin-icon"></div>
+                    <div class="flip-card-container">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h3>Day 1</h3>
+                                <h4>The R Awakening</h4>
+                            </div>
+                            <div class="flip-card-back">
+                                <p>Escape the spreadsheet matrix. We ditch Excel and GraphPad to tour RStudio, install packages, and build a reproducible foundation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-<p class="lead">
-Most statistics courses present t‑tests, correlations, ANOVA, and regression as unrelated tools. This course reveals the deeper structure: <span class="highlight">they are all the same model.</span> Understanding the linear model framework makes advanced neuroscience analysis — including mixed models — dramatically easier.
-</p>
+                <div class="pin" onclick="toggleFlip(event, this)">
+                    <div class="pin-icon"></div>
+                    <div class="flip-card-container">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h3>Day 2</h3>
+                                <h4>Painting with Penguins</h4>
+                            </div>
+                            <div class="flip-card-back">
+                                <p>Meet the Palmer Penguins. Dive straight into data visualization using ggplot2 and Hadley's verbs to wrangle and plot beautifully.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-<p class="lead">
-Participants will also learn how to move from fragile spreadsheet workflows to fully reproducible analysis pipelines in R.
-</p>
+                <div class="pin" onclick="toggleFlip(event, this)">
+                    <div class="pin-icon"></div>
+                    <div class="flip-card-container">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h3>Day 3</h3>
+                                <h4>The Meanest Benchmark</h4>
+                            </div>
+                            <div class="flip-card-back">
+                                <p>Stop memorizing flowcharts! We introduce linear models using the mean as our baseline, graduating to simple regression (one X, one Y).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-</section>
+                <div class="pin" onclick="toggleFlip(event, this)">
+                    <div class="pin-icon"></div>
+                    <div class="flip-card-container">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h3>Day 4</h3>
+                                <h4>The Great Statistical Hoax</h4>
+                            </div>
+                            <div class="flip-card-back">
+                                <p>The veil is lifted. We prove that correlations, t-tests, and ANOVAs are actually just simple regression wearing different hats.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-<section>
+                <div class="pin" onclick="toggleFlip(event, this)">
+                    <div class="pin-icon"></div>
+                    <div class="flip-card-container">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h3>Day 5</h3>
+                                <h4>Size Matters</h4>
+                            </div>
+                            <div class="flip-card-back">
+                                <p>Beyond p-values. A theory dive into effect sizes and mind-bending statistical quirks, like paired vs. unpaired tests on the same data.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="pin" onclick="toggleFlip(event, this)">
+                    <div class="pin-icon"></div>
+                    <div class="flip-card-container">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h3>Day 6</h3>
+                                <h4>The Covariate Plot Twist</h4>
+                            </div>
+                            <div class="flip-card-back">
+                                <p>Life isn't simple, and neither is data. Learn how to add covariates into your regression models to control for confounding variables.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="pin" onclick="toggleFlip(event, this)">
+                    <div class="pin-icon"></div>
+                    <div class="flip-card-container">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h3>Day 7</h3>
+                                <h4>Bulletproofing Your Data</h4>
+                            </div>
+                            <div class="flip-card-back">
+                                <p>What happens when assumptions fail? Explore robust statistics to handle outliers and heavy tails without throwing away precious data.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-<div class="route-container">
+                <div class="pin" onclick="toggleFlip(event, this)">
+                    <div class="pin-icon"></div>
+                    <div class="flip-card-container">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h3>Day 8</h3>
+                                <h4>When Data Gets Needy</h4>
+                            </div>
+                            <div class="flip-card-back">
+                                <p>Neuroscience data is messy and hierarchical. Discover why standard regression fails here and why we desperately need mixed-effects models.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="pin" onclick="toggleFlip(event, this)">
+                    <div class="pin-icon"></div>
+                    <div class="flip-card-container">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h3>Day 9</h3>
+                                <h4>Mixing It Up</h4>
+                            </div>
+                            <div class="flip-card-back">
+                                <p>The main event. We build linear mixed models (LMMs), separating fixed effects from random intercepts and slopes for complex designs.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="pin" onclick="toggleFlip(event, this)">
+                    <div class="pin-icon"></div>
+                    <div class="flip-card-container">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h3>Day 10</h3>
+                                <h4>The Grand Unification</h4>
+                            </div>
+                            <div class="flip-card-back">
+                                <p>Tying it all together. A comprehensive summary of the unified modeling framework, followed by an open QnA for your specific data problems.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+            </div>
+        </div>
+    </section>
 
+    <section class="objectives">
+        <h2>By the end of this course, you will be able to:</h2>
+        <ul>
+            <li><strong>Command Reproducible Workflows:</strong> Confidently navigate RStudio, wrangle messy datasets using <code>dplyr</code> verbs, and generate publication-ready plots using <code>ggplot2</code> instead of relying on fragile spreadsheets.</li>
+            <li><strong>See the Matrix of Linear Models:</strong> Stop memorizing fragmented decision trees. You will understand how to build and interpret simple and multiple regressions, recognizing that t-tests, ANOVAs, and correlations are all just special cases of the same core model.</li>
+            <li><strong>Control for the Real World:</strong> Successfully integrate covariates to control for confounding variables and apply robust statistical methods to handle outliers and heavy-tailed data without artificially trimming your datasets.</li>
+            <li><strong>Master Hierarchical Data (LMMs):</strong> Identify when standard regression fails and successfully deploy Linear Mixed Models (LMMs) to properly analyze the nested, hierarchical, or repeated-measures data common in neuroscience.</li>
+        </ul>
+    </section>
 
+    <div class="footer">
+        Designed for neuroscientists transitioning to modern reproducible data analysis.
+    </div>
 
-<div class="route-grid">
+    <script>
+        function toggleFlip(event, el) {
+            event.stopPropagation();
+            if(el.classList.contains('flipped')) {
+                el.classList.remove('flipped');
+            } else {
+                document.querySelectorAll('.pin').forEach(pin => pin.classList.remove('flipped'));
+                el.classList.add('flipped');
+            }
+        }
 
-<div class="pin" onmouseenter="activatePin(this)">
-<div class="pin-icon"></div>
-<div class="pin-label">
-<h3>Day 1</h3>
-<p>The R Multiverse</p>
-</div>
-</div>
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.pin')) {
+                document.querySelectorAll('.pin').forEach(pin => pin.classList.remove('flipped'));
+            }
+        });
 
-<div class="pin" onmouseenter="activatePin(this)">
-<div class="pin-icon"></div>
-<div class="pin-label">
-<h3>Day 2</h3>
-<p>The Mean as a Model</p>
-</div>
-</div>
+        window.addEventListener('scroll',()=>{
+            const y=window.scrollY
+            const hero=document.querySelector('.hero')
+            if(y < window.innerHeight) {
+                hero.style.transform=`translateY(${y*0.15}px)`
+                hero.style.opacity = 1 - (y / 600);
+            }
+        })
 
-<div class="pin" onmouseenter="activatePin(this)">
-<div class="pin-icon"></div>
-<div class="pin-label">
-<h3>Day 3</h3>
-<p>Simple Regression</p>
-</div>
-</div>
+        const canvas = document.getElementById('neural-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-<div class="pin" onmouseenter="activatePin(this)">
-<div class="pin-icon"></div>
-<div class="pin-label">
-<h3>Day 4</h3>
-<p>Everything is a GLM</p>
-</div>
-</div>
+        let particlesArray;
 
-<div class="pin" onmouseenter="activatePin(this)">
-<div class="pin-icon"></div>
-<div class="pin-label">
-<h3>Day 5</h3>
-<p>ANOVA as Regression</p>
-</div>
-</div>
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x; this.y = y;
+                this.directionX = directionX; this.directionY = directionY;
+                this.size = size; this.color = color;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+            update() {
+                if (this.x > canvas.width || this.x < 0) { this.directionX = -this.directionX; }
+                if (this.y > canvas.height || this.y < 0) { this.directionY = -this.directionY; }
+                this.x += this.directionX;
+                this.y += this.directionY;
+                this.draw();
+            }
+        }
 
-<div class="pin" onmouseenter="activatePin(this)">
-<div class="pin-icon"></div>
-<div class="pin-label">
-<h3>Day 6</h3>
-<p>Effect Sizes</p>
-</div>
-</div>
+        function init() {
+            particlesArray = [];
+            let numberOfParticles = (canvas.height * canvas.width) / 15000;
+            if(window.innerWidth < 768) {
+                numberOfParticles = (canvas.height * canvas.width) / 25000; 
+            }
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 2) + 1;
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                let directionX = (Math.random() * 0.5) - 0.25;
+                let directionY = (Math.random() * 0.5) - 0.25;
+                let color = 'rgba(255, 255, 255, 0.1)';
+                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+            }
+        }
 
-<div class="pin" onmouseenter="activatePin(this)">
-<div class="pin-icon"></div>
-<div class="pin-label">
-<h3>Day 7</h3>
-<p>Covariates (ANCOVA)</p>
-</div>
-</div>
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+            for (let i = 0; i < particlesArray.length; i++) { particlesArray[i].update(); }
+            connect();
+        }
 
-<div class="pin" onmouseenter="activatePin(this)">
-<div class="pin-icon"></div>
-<div class="pin-label">
-<h3>Day 8</h3>
-<p>Robust Statistics</p>
-</div>
-</div>
+        function connect() {
+            let opacityValue = 1;
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + 
+                                   ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                    if (distance < (canvas.width / 7) * (canvas.height / 7)) {
+                        opacityValue = 1 - (distance / 20000);
+                        ctx.strokeStyle = 'rgba(255, 255, 255,' + opacityValue * 0.1 + ')';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
 
-<div class="pin" onmouseenter="activatePin(this)">
-<div class="pin-icon"></div>
-<div class="pin-label">
-<h3>Day 9</h3>
-<p>Linear Mixed Models I</p>
-</div>
-</div>
+        window.addEventListener('resize', () => {
+            canvas.width = innerWidth; canvas.height = innerHeight; init();
+        });
 
-<div class="pin" onmouseenter="activatePin(this)">
-<div class="pin-icon"></div>
-<div class="pin-label">
-<h3>Day 10</h3>
-<p>Linear Mixed Models II</p>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<section class="objectives">
-
-<h2>Learning Objectives</h2>
-
-<ul>
-<li><strong>Reproducible Workflows</strong> — move from spreadsheets to scripted pipelines using modern R tools.</li>
-<li><strong>Unified Statistical Thinking</strong> — understand t‑tests, ANOVA, and correlation as special cases of regression.</li>
-<li><strong>Handling Complex Data</strong> — analyse nested neuroscience datasets using linear mixed models.</li>
-</ul>
-
-</section>
-
-
-
-<section class="resources">
-
-<h2>Further Reading</h2>
-
-<ul>
-<li>Altman & Krzywinski — <em>Beyond P Values: Everyday Data Analysis</em></li>
-<li>Andrew Gelman — <em>Statistical Modeling, Causal Inference, and Social Science</em></li>
-<li>Andy Field — <em>Discovering Statistics Using R</em></li>
-</ul>
-
-</section>
-
-<div class="footer">
-Designed for neuroscientists transitioning to modern reproducible data analysis.
-</div>
-
-<script>
-function activatePin(el){el.classList.add('active')}
-
-const pins=[...document.querySelectorAll('.pin')]
-
-pins.forEach(p=>{
-  p.addEventListener('mouseenter',()=>{
-    p.classList.add('active','visited')
-  })
-})
-
-window.addEventListener('scroll',()=>{
-const y=window.scrollY
-const hero=document.querySelector('.hero')
-hero.style.transform=`translateY(${y*0.08}px)`
-})
-
-</script>
-
+        init();
+        animate();
+    </script>
 </body>
 </html>
