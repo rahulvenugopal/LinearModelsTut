@@ -280,6 +280,7 @@
             height: 200px;
             margin-top: 20px;
             perspective: 1000px;
+            position: relative;
         }
 
         .flip-card-inner {
@@ -338,6 +339,56 @@
             /* Fix horizontal alignment: pushes content to start from the exact same top baseline */
             justify-content: flex-start;
             padding-top: 2.5rem;
+        }
+
+        /* Click-hint indicator — lives in .flip-card-container, above the flip */
+        .click-hint {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            font-size: 0.7rem;
+            color: rgba(129, 140, 248, 0.6);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            animation: hintPulse 2.5s ease-in-out infinite;
+            white-space: nowrap;
+            transition: color 0.3s;
+        }
+
+        .click-hint:hover {
+            color: rgba(129, 140, 248, 1);
+            animation: none;
+        }
+
+        .click-hint::after {
+            content: '→';
+            display: inline-block;
+            animation: hintSlide 2.5s ease-in-out infinite;
+        }
+
+        .click-hint:hover::after {
+            animation: none;
+        }
+
+        @keyframes hintPulse {
+            0%, 100% { opacity: 0.4; }
+            50%      { opacity: 0.9; }
+        }
+
+        @keyframes hintSlide {
+            0%, 100% { transform: translateX(0); }
+            50%      { transform: translateX(4px); }
+        }
+
+        .flip-card-front a {
+            color: inherit;
+            text-decoration: none;
         }
 
         .flip-card-back {
@@ -515,15 +566,16 @@
             research.</p>
 
         <div class="badges">
-            <span class="badge">10 Hours</span>
+            <span class="badge">15 Hours</span>
             <span class="badge">2 Weeks</span>
-            <span class="badge">16:30 – 17:30 IST</span>
+            <span class="badge">14:30 – 16:00 IST</span>
+            <span class="badge">@ CCS Hall</span>
             <span class="badge">Hands‑on with R in RStudio</span>
         </div>
 
         <div class="cta-container">
             <p class="matrix-quote">“Have you ever seen a hacker with a mouse?”</p>
-            <a href="https://forms.google.com/" target="_blank" class="register-btn">Register Here (n=20) </a>
+            <a href="" target="_blank" class="register-btn">This button does not do anything </a>
         </div>
     </div>
 
@@ -546,14 +598,17 @@
                     <div class="flip-card-container">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
-                                <h3>Day 1</h3>
-                                <h4>The Foundation</h4>
+                                <a href="Resources/D1/index.html">
+                                    <h3>Day 1</h3>
+                                    <h4>The Foundation</h4>
+                                </a>
                             </div>
                             <div class="flip-card-back">
                                 <p>Tour RStudio, install packages, and build a workflow that won't haunt you at 2 AM.
                                 </p>
                             </div>
                         </div>
+                        <a href="Resources/D1/index.html" class="click-hint" onclick="event.stopPropagation()">explore</a>
                     </div>
                 </div>
 
@@ -562,14 +617,17 @@
                     <div class="flip-card-container">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
-                                <h3>Day 2</h3>
-                                <h4>Data Wrangling</h4>
+                                <a href="Resources/D2/index.html">
+                                    <h3>Day 2</h3>
+                                    <h4>Data Wrangling</h4>
+                                </a>
                             </div>
                             <div class="flip-card-back">
                                 <p>Import, clean, and summarize data with dplyr. What Excel takes hours to do, you'll
                                     do in seconds.</p>
                             </div>
                         </div>
+                        <a href="Resources/D2/index.html" class="click-hint" onclick="event.stopPropagation()">explore</a>
                     </div>
                 </div>
 
@@ -578,14 +636,17 @@
                     <div class="flip-card-container">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
-                                <h3>Day 3</h3>
-                                <h4>Painting with penguins</h4>
+                                <a href="Resources/D3/index.html">
+                                    <h3>Day 3</h3>
+                                    <h4>Painting with penguins</h4>
+                                </a>
                             </div>
                             <div class="flip-card-back">
                                 <p>Build layered ggplot2 figures, embed stats, and combine plots. Make your data
                                     impossible to ignore.</p>
                             </div>
                         </div>
+                        <a href="Resources/D3/index.html" class="click-hint" onclick="event.stopPropagation()">explore</a>
                     </div>
                 </div>
 
@@ -594,14 +655,17 @@
                     <div class="flip-card-container">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
-                                <h3>Day 4</h3>
-                                <h4>Simple Regression</h4>
+                                <a href="Resources/D4/index.html">
+                                    <h3>Day 4</h3>
+                                    <h4>Simple Regression</h4>
+                                </a>
                             </div>
                             <div class="flip-card-back">
                                 <p>Dissect Y=β₀+β₁X+ε term by term and mean-center X so your intercept finally makes
                                     sense.</p>
                             </div>
                         </div>
+                        <a href="Resources/D4/index.html" class="click-hint" onclick="event.stopPropagation()">explore</a>
                     </div>
                 </div>
 
@@ -610,14 +674,17 @@
                     <div class="flip-card-container">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
-                                <h3>Day 5</h3>
-                                <h4>r Doesn't Lie</h4>
+                                <a href="Resources/D5/index.html">
+                                    <h3>Day 5</h3>
+                                    <h4>r Doesn't Lie</h4>
+                                </a>
                             </div>
                             <div class="flip-card-back">
                                 <p>Pearson vs. Spearman, z-scores, and the big reveal: scaling never changes the
                                     correlation.</p>
                             </div>
                         </div>
+                        <a href="Resources/D5/index.html" class="click-hint" onclick="event.stopPropagation()">explore</a>
                     </div>
                 </div>
 
@@ -626,14 +693,17 @@
                     <div class="flip-card-container">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
-                                <h3>Day 6</h3>
-                                <h4>Multiple Regression</h4>
+                                <a href="Resources/D6/index.html">
+                                    <h3>Day 6</h3>
+                                    <h4>Multiple Regression</h4>
+                                </a>
                             </div>
                             <div class="flip-card-back">
                                 <p>Mix continuous and categorical predictors to isolate each variable's unique signal.
                                 </p>
                             </div>
                         </div>
+                        <a href="Resources/D6/index.html" class="click-hint" onclick="event.stopPropagation()">explore</a>
                     </div>
                 </div>
 
@@ -642,14 +712,17 @@
                     <div class="flip-card-container">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
-                                <h3>Day 7</h3>
-                                <h4>It Depends</h4>
+                                <a href="Resources/D7/index.html">
+                                    <h3>Day 7</h3>
+                                    <h4>It Depends</h4>
+                                </a>
                             </div>
                             <div class="flip-card-back">
                                 <p>Formally test when the effect of A on Y changes with B. Spot moderation in the wild.
                                 </p>
                             </div>
                         </div>
+                        <a href="Resources/D7/index.html" class="click-hint" onclick="event.stopPropagation()">explore</a>
                     </div>
                 </div>
 
@@ -658,14 +731,17 @@
                     <div class="flip-card-container">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
-                                <h3>Day 8</h3>
-                                <h4>Kill the Noise</h4>
+                                <a href="Resources/D8/index.html">
+                                    <h3>Day 8</h3>
+                                    <h4>Kill the Noise</h4>
+                                </a>
                             </div>
                             <div class="flip-card-back">
                                 <p>Add covariates to control confounds, or regress them out and work with clean
                                     residuals.</p>
                             </div>
                         </div>
+                        <a href="Resources/D8/index.html" class="click-hint" onclick="event.stopPropagation()">explore</a>
                     </div>
                 </div>
 
@@ -674,14 +750,17 @@
                     <div class="flip-card-container">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
-                                <h3>Day 9</h3>
-                                <h4>Beyond Independence</h4>
+                                <a href="Resources/D9/index.html">
+                                    <h3>Day 9</h3>
+                                    <h4>Beyond Independence</h4>
+                                </a>
                             </div>
                             <div class="flip-card-back">
                                 <p>When trials nest inside subjects, classical regression lies. Meet fixed vs. random
                                     effects.</p>
                             </div>
                         </div>
+                        <a href="Resources/D9/index.html" class="click-hint" onclick="event.stopPropagation()">explore</a>
                     </div>
                 </div>
 
@@ -690,14 +769,17 @@
                     <div class="flip-card-container">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
-                                <h3>Day 10</h3>
-                                <h4>The Showdown</h4>
+                                <a href="Resources/D10/index.html">
+                                    <h3>Day 10</h3>
+                                    <h4>The Showdown</h4>
+                                </a>
                             </div>
                             <div class="flip-card-back">
                                 <p>Write lmer syntax and watch "significant" effects vanish when random structure is
                                     correctly specified.</p>
                             </div>
                         </div>
+                        <a href="Resources/D10/index.html" class="click-hint" onclick="event.stopPropagation()">explore</a>
                     </div>
                 </div>
 

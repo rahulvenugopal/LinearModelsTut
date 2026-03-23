@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Day 9 – Beyond Independence | Data Analysis for Neuroscientists</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+</head>
+<body>
+    <div class="ambient-background"></div>
+    <nav class="top-nav">
+        <a href="../../index.html">← Back to Course</a>
+        <span class="nav-day-label">Day 9 of 10</span>
+        <div class="nav-arrows">
+            <a href="../D8/index.html">← Prev</a>
+            <a href="../D10/index.html">Next →</a>
+        </div>
+    </nav>
+    <header class="page-header">
+        <p class="day-number">Day 9</p>
+        <h1>Beyond Independence</h1>
+        <p class="subtitle">When trials nest inside subjects, classical regression lies. Meet fixed vs. random effects.</p>
+    </header>
+    <main class="content">
+        <section>
+            <h2>Topics Covered</h2>
+            <div class="card-grid">
+                <div class="glass-card"><h3>Nested Data</h3><p>Understand why trials within subjects violate independence and inflate Type I errors.</p></div>
+                <div class="glass-card"><h3>Fixed vs. Random</h3><p>Fixed effects estimate population means; random effects model individual variation.</p></div>
+                <div class="glass-card"><h3>Random Intercepts</h3><p>Let each subject have their own baseline — the simplest mixed model and a huge step forward.</p></div>
+            </div>
+        </section>
+        <section>
+            <h2>Key Concepts</h2>
+            <ul>
+                <li>Why ignoring nesting structure leads to pseudo-replication</li>
+                <li>The shrinkage effect: partial pooling vs. no pooling vs. complete pooling</li>
+                <li>ICC (intra-class correlation) — how much variance lives between subjects</li>
+                <li>When you need mixed models vs. when aggregation is okay</li>
+            </ul>
+        </section>
+        <section class="homework">
+            <h2>Homework</h2>
+            <ul>
+                <li>Compute the ICC for a repeated-measures dataset</li>
+                <li>Fit a random-intercepts model using lmer() and compare with a standard lm()</li>
+                <li>Plot subject-level intercepts to visualize individual differences</li>
+            </ul>
+        </section>
+    </main>
+    <footer class="footer"><a href="../../index.html">← Return to Course Home</a></footer>
+</body>
+</html>
