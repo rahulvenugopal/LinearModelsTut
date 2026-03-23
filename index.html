@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Data Analysis for Neuroscientists in R</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
 
     <style>
         /* 1. Deep, Meditative Color Palette & Reset */
@@ -19,7 +22,11 @@
             --glass-border: rgba(255, 255, 255, 0.08);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
             background-color: var(--bg-deep);
@@ -30,12 +37,16 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        h1, h2, h3 {
+        h1,
+        h2,
+        h3 {
             font-family: 'Playfair Display', serif;
             font-weight: 400;
         }
 
-        p { text-align: justify; }
+        p {
+            text-align: justify;
+        }
 
         section {
             padding: 2rem 10%;
@@ -48,22 +59,33 @@
         /* 2. Fluid Waveform / Neural Background */
         .ambient-background {
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             background: radial-gradient(circle at 15% 50%, var(--accent-glow), transparent 50%),
-                        radial-gradient(circle at 85% 30%, var(--accent-teal), transparent 50%);
+                radial-gradient(circle at 85% 30%, var(--accent-teal), transparent 50%);
             filter: blur(80px);
             z-index: -2;
             animation: breathe 15s infinite alternate ease-in-out;
         }
 
         @keyframes breathe {
-            0% { transform: scale(1); opacity: 0.6; }
-            100% { transform: scale(1.1); opacity: 1; }
+            0% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
         }
 
         canvas {
             position: fixed;
-            top: 0; left: 0;
+            top: 0;
+            left: 0;
             z-index: -1;
             pointer-events: none;
         }
@@ -118,7 +140,7 @@
             border: 1px solid var(--glass-border);
             font-size: 14px;
             backdrop-filter: blur(10px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
         }
 
@@ -140,7 +162,7 @@
 
         .matrix-quote {
             font-size: 0.95rem;
-            color: rgba(20, 184, 166, 0.9); 
+            color: rgba(20, 184, 166, 0.9);
             font-style: italic;
             letter-spacing: 0.5px;
             text-shadow: 0 0 10px rgba(20, 184, 166, 0.3);
@@ -169,7 +191,7 @@
             background: var(--accent-solid);
             box-shadow: 0 0 30px var(--accent-solid);
             transform: translateY(-3px);
-            color: #050814; 
+            color: #050814;
         }
 
         /* SECTION TITLES & LEAD TEXT */
@@ -181,8 +203,13 @@
             display: inline-block;
         }
 
-        .philosophy { text-align: center; }
-        .philosophy h2 { display: inline-block; }
+        .philosophy {
+            text-align: center;
+        }
+
+        .philosophy h2 {
+            display: inline-block;
+        }
 
         .lead {
             font-size: clamp(1rem, 2vw, 1.15rem);
@@ -240,7 +267,8 @@
             z-index: 2;
         }
 
-        .pin:hover .pin-icon, .pin.flipped .pin-icon {
+        .pin:hover .pin-icon,
+        .pin.flipped .pin-icon {
             background: var(--accent-solid);
             box-shadow: 0 0 20px var(--accent-solid);
             transform: scale(1.2);
@@ -267,23 +295,27 @@
             .pin:hover .flip-card-inner {
                 transform: rotateY(180deg);
             }
+
             .pin:hover .flip-card-front {
                 opacity: 0;
-                transition: opacity 0s 0.2s; 
+                transition: opacity 0s 0.2s;
             }
         }
 
         .pin.flipped .flip-card-inner {
             transform: rotateY(180deg);
         }
+
         .pin.flipped .flip-card-front {
             opacity: 0;
-            transition: opacity 0s 0.2s; 
+            transition: opacity 0s 0.2s;
         }
 
-        .flip-card-front, .flip-card-back {
+        .flip-card-front,
+        .flip-card-back {
             position: absolute;
-            top: 0; left: 0;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             -webkit-backface-visibility: hidden;
@@ -300,21 +332,21 @@
             border: 1px solid var(--glass-border);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             opacity: 1;
-            transition: opacity 0s 0.2s; 
+            transition: opacity 0s 0.2s;
             /* Fix horizontal alignment: pushes content to start from the exact same top baseline */
             justify-content: flex-start;
-            padding-top: 2.5rem; 
+            padding-top: 2.5rem;
         }
 
         .flip-card-back {
             transform: rotateY(180deg);
-            background: rgba(13, 17, 33, 0.98); 
+            background: rgba(13, 17, 33, 0.98);
             border: 1px solid rgba(129, 140, 248, 0.3);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             /* Keep paragraph nicely centered vertically */
-            justify-content: center; 
+            justify-content: center;
         }
 
         .flip-card-front h3 {
@@ -341,18 +373,26 @@
         }
 
         /* LISTS (Objectives & Resources) */
-        .objectives ul, .resources ul { padding-left: 20px; list-style: none; }
-        .objectives li, .resources li {
+        .objectives ul,
+        .resources ul {
+            padding-left: 20px;
+            list-style: none;
+        }
+
+        .objectives li,
+        .resources li {
             margin-bottom: 16px;
             font-size: 1.05rem;
             color: var(--text-muted);
             position: relative;
             padding-left: 35px;
             /* FIXED: Fully justified text for the learning objectives */
-            text-align: justify; 
+            text-align: justify;
             line-height: 1.5;
         }
-        .objectives li::before, .resources li::before {
+
+        .objectives li::before,
+        .resources li::before {
             content: "✦";
             position: absolute;
             left: 0;
@@ -360,7 +400,11 @@
             font-size: 1.4rem;
             line-height: 1.1;
         }
-        .objectives strong { color: #fff; font-weight: 600; }
+
+        .objectives strong {
+            color: #fff;
+            font-weight: 600;
+        }
 
         .footer {
             text-align: center;
@@ -377,13 +421,20 @@
         /* MOBILE RESPONSIVENESS                     */
         /* ========================================= */
         @media (max-width: 900px) {
-            .route-grid { grid-template-columns: repeat(3, 1fr); }
-            .route-container::before { display: none; }
+            .route-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .route-container::before {
+                display: none;
+            }
         }
 
         @media (max-width: 768px) {
-            section { padding: 1.5rem 5%; }
-            
+            section {
+                padding: 1.5rem 5%;
+            }
+
             .route-grid {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
@@ -394,7 +445,8 @@
             .route-container::after {
                 content: '';
                 position: absolute;
-                top: 0; bottom: 0;
+                top: 0;
+                bottom: 0;
                 left: 50%;
                 transform: translateX(-50%);
                 width: 2px;
@@ -402,20 +454,52 @@
                 z-index: -1;
             }
 
-            .pin { flex-direction: column; }
-            .pin-icon { margin-bottom: -10px; z-index: 3; }
-            .flip-card-container { height: 160px; }
-            .cta-container { margin-top: 30px; }
+            .pin {
+                flex-direction: column;
+            }
+
+            .pin-icon {
+                margin-bottom: -10px;
+                z-index: 3;
+            }
+
+            .flip-card-container {
+                height: 160px;
+            }
+
+            .cta-container {
+                margin-top: 30px;
+            }
+
             /* Center elements slightly differently on mobile if desired */
-            .flip-card-front { padding-top: 1.5rem; } 
+            .flip-card-front {
+                padding-top: 1.5rem;
+            }
         }
 
         @media (max-width: 480px) {
-            .hero { padding: 40px 20px; }
-            .badges { flex-direction: column; width: 100%; align-items: stretch; }
-            .badge { text-align: center; }
-            .flip-card-container { height: 180px; } 
-            .register-btn { width: 100%; text-align: center; }
+            .hero {
+                padding: 40px 20px;
+            }
+
+            .badges {
+                flex-direction: column;
+                width: 100%;
+                align-items: stretch;
+            }
+
+            .badge {
+                text-align: center;
+            }
+
+            .flip-card-container {
+                height: 180px;
+            }
+
+            .register-btn {
+                width: 100%;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -427,7 +511,8 @@
 
     <div class="hero">
         <h1>Data Analysis for <span class="highlight">Neuroscientists</span> in R</h1>
-        <p>A modern introduction to statistical modeling, visualisation and mixed‑effects models for neuroscience research.</p>
+        <p>A modern introduction to statistical modeling, visualisation and mixed‑effects models for neuroscience
+            research.</p>
 
         <div class="badges">
             <span class="badge">10 Hours</span>
@@ -445,7 +530,9 @@
     <section class="philosophy">
         <h2>One Model to Rule Them All</h2>
         <p class="lead">
-            Most statistics courses present t‑tests, correlations, ANOVA, and regression as unrelated tools. This course reveals the deeper structure: <span class="highlight">they are all the same model.</span> Understanding the linear model framework makes advanced neuroscience analysis efficient including mixed models.
+            Most statistics courses present t‑tests, correlations, ANOVA, and regression as unrelated tools. This course
+            reveals the deeper structure: <span class="highlight">they are all the same model.</span> Understanding the
+            linear model framework makes advanced neuroscience analysis efficient including mixed models.
         </p>
     </section>
 
@@ -460,10 +547,11 @@
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <h3>Day 1</h3>
-                                <h4>The R Awakening</h4>
+                                <h4>The Foundation</h4>
                             </div>
                             <div class="flip-card-back">
-                                <p>Escape the spreadsheet matrix. We ditch Excel and GraphPad to tour RStudio, install packages, and build a reproducible foundation.</p>
+                                <p>Tour RStudio, install packages, and build a workflow that won't haunt you at 2 AM.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -475,10 +563,11 @@
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <h3>Day 2</h3>
-                                <h4>Painting with Penguins</h4>
+                                <h4>Data Wrangling</h4>
                             </div>
                             <div class="flip-card-back">
-                                <p>Meet the Palmer Penguins. Dive straight into data visualization using ggplot2 and Hadley's verbs to wrangle and plot beautifully.</p>
+                                <p>Import, clean, and summarize data with dplyr. What Excel takes hours to do, you'll
+                                    do in seconds.</p>
                             </div>
                         </div>
                     </div>
@@ -490,10 +579,11 @@
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <h3>Day 3</h3>
-                                <h4>The Meanest Benchmark</h4>
+                                <h4>Painting with penguins</h4>
                             </div>
                             <div class="flip-card-back">
-                                <p>Stop memorizing flowcharts! We introduce linear models using the mean as our baseline, graduating to simple regression (one X, one Y).</p>
+                                <p>Build layered ggplot2 figures, embed stats, and combine plots. Make your data
+                                    impossible to ignore.</p>
                             </div>
                         </div>
                     </div>
@@ -505,10 +595,11 @@
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <h3>Day 4</h3>
-                                <h4>The Great Statistical Hoax</h4>
+                                <h4>Simple Regression</h4>
                             </div>
                             <div class="flip-card-back">
-                                <p>The veil is lifted. We prove that correlations, t-tests, and ANOVAs are actually just simple regression wearing different hats.</p>
+                                <p>Dissect Y=β₀+β₁X+ε term by term and mean-center X so your intercept finally makes
+                                    sense.</p>
                             </div>
                         </div>
                     </div>
@@ -520,10 +611,11 @@
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <h3>Day 5</h3>
-                                <h4>Size Matters</h4>
+                                <h4>r Doesn't Lie</h4>
                             </div>
                             <div class="flip-card-back">
-                                <p>Beyond p-values. A theory dive into effect sizes and mind-bending statistical quirks, like paired vs. unpaired tests on the same data.</p>
+                                <p>Pearson vs. Spearman, z-scores, and the big reveal: scaling never changes the
+                                    correlation.</p>
                             </div>
                         </div>
                     </div>
@@ -535,10 +627,11 @@
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <h3>Day 6</h3>
-                                <h4>The Covariate Plot Twist</h4>
+                                <h4>Multiple Regression</h4>
                             </div>
                             <div class="flip-card-back">
-                                <p>Life isn't simple, and neither is data. Learn how to add covariates into your regression models to control for confounding variables.</p>
+                                <p>Mix continuous and categorical predictors to isolate each variable's unique signal.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -550,10 +643,11 @@
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <h3>Day 7</h3>
-                                <h4>Bulletproofing Your Data</h4>
+                                <h4>It Depends</h4>
                             </div>
                             <div class="flip-card-back">
-                                <p>What happens when assumptions fail? Explore robust statistics to handle outliers and heavy tails without throwing away precious data.</p>
+                                <p>Formally test when the effect of A on Y changes with B. Spot moderation in the wild.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -565,10 +659,11 @@
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <h3>Day 8</h3>
-                                <h4>When Data Gets Needy</h4>
+                                <h4>Kill the Noise</h4>
                             </div>
                             <div class="flip-card-back">
-                                <p>Neuroscience data is messy and hierarchical. Discover why standard regression fails here and why we desperately need mixed-effects models.</p>
+                                <p>Add covariates to control confounds, or regress them out and work with clean
+                                    residuals.</p>
                             </div>
                         </div>
                     </div>
@@ -580,10 +675,11 @@
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <h3>Day 9</h3>
-                                <h4>Mixing It Up</h4>
+                                <h4>Beyond Independence</h4>
                             </div>
                             <div class="flip-card-back">
-                                <p>The main event. We build linear mixed models (LMMs), separating fixed effects from random intercepts and slopes for complex designs.</p>
+                                <p>When trials nest inside subjects, classical regression lies. Meet fixed vs. random
+                                    effects.</p>
                             </div>
                         </div>
                     </div>
@@ -595,10 +691,11 @@
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <h3>Day 10</h3>
-                                <h4>The Grand Unification</h4>
+                                <h4>The Showdown</h4>
                             </div>
                             <div class="flip-card-back">
-                                <p>Tying it all together. A comprehensive summary of the unified modeling framework, followed by an open QnA for your specific data problems.</p>
+                                <p>Write lmer syntax and watch "significant" effects vanish when random structure is
+                                    correctly specified.</p>
                             </div>
                         </div>
                     </div>
@@ -611,10 +708,18 @@
     <section class="objectives">
         <h2>By the end of this course, you will be able to:</h2>
         <ul>
-            <li><strong>Command Reproducible Workflows:</strong> Confidently navigate RStudio, wrangle messy datasets using <code>dplyr</code> verbs, and generate publication-ready plots using <code>ggplot2</code> instead of relying on fragile spreadsheets.</li>
-            <li><strong>See the Matrix of Linear Models:</strong> Stop memorizing fragmented decision trees. You will understand how to build and interpret simple and multiple regressions, recognizing that t-tests, ANOVAs, and correlations are all just special cases of the same core model.</li>
-            <li><strong>Control for the Real World:</strong> Successfully integrate covariates to control for confounding variables and apply robust statistical methods to handle outliers and heavy-tailed data without artificially trimming your datasets.</li>
-            <li><strong>Master Hierarchical Data (LMMs):</strong> Identify when standard regression fails and successfully deploy Linear Mixed Models (LMMs) to properly analyze the nested, hierarchical, or repeated-measures data common in neuroscience.</li>
+            <li><strong>Command Reproducible Workflows:</strong> Confidently navigate RStudio, wrangle messy datasets
+                using <code>dplyr</code> verbs, and generate publication-ready plots using <code>ggplot2</code> instead
+                of relying on fragile spreadsheets.</li>
+            <li><strong>See the Matrix of Linear Models:</strong> Stop memorizing fragmented decision trees. You will
+                understand how to build and interpret simple and multiple regressions, recognizing that t-tests, ANOVAs,
+                and correlations are all just special cases of the same core model.</li>
+            <li><strong>Control for the Real World:</strong> Successfully integrate covariates to control for
+                confounding variables and apply robust statistical methods to handle outliers and heavy-tailed data
+                without artificially trimming your datasets.</li>
+            <li><strong>Master Hierarchical Data (LMMs):</strong> Identify when standard regression fails and
+                successfully deploy Linear Mixed Models (LMMs) to properly analyze the nested, hierarchical, or
+                repeated-measures data common in neuroscience.</li>
         </ul>
     </section>
 
@@ -625,7 +730,7 @@
     <script>
         function toggleFlip(event, el) {
             event.stopPropagation();
-            if(el.classList.contains('flipped')) {
+            if (el.classList.contains('flipped')) {
                 el.classList.remove('flipped');
             } else {
                 document.querySelectorAll('.pin').forEach(pin => pin.classList.remove('flipped'));
@@ -633,17 +738,17 @@
             }
         }
 
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function (event) {
             if (!event.target.closest('.pin')) {
                 document.querySelectorAll('.pin').forEach(pin => pin.classList.remove('flipped'));
             }
         });
 
-        window.addEventListener('scroll',()=>{
-            const y=window.scrollY
-            const hero=document.querySelector('.hero')
-            if(y < window.innerHeight) {
-                hero.style.transform=`translateY(${y*0.15}px)`
+        window.addEventListener('scroll', () => {
+            const y = window.scrollY
+            const hero = document.querySelector('.hero')
+            if (y < window.innerHeight) {
+                hero.style.transform = `translateY(${y * 0.15}px)`
                 hero.style.opacity = 1 - (y / 600);
             }
         })
@@ -679,8 +784,8 @@
         function init() {
             particlesArray = [];
             let numberOfParticles = (canvas.height * canvas.width) / 15000;
-            if(window.innerWidth < 768) {
-                numberOfParticles = (canvas.height * canvas.width) / 25000; 
+            if (window.innerWidth < 768) {
+                numberOfParticles = (canvas.height * canvas.width) / 25000;
             }
             for (let i = 0; i < numberOfParticles; i++) {
                 let size = (Math.random() * 2) + 1;
@@ -704,8 +809,8 @@
             let opacityValue = 1;
             for (let a = 0; a < particlesArray.length; a++) {
                 for (let b = a; b < particlesArray.length; b++) {
-                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + 
-                                   ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) +
+                        ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
                     if (distance < (canvas.width / 7) * (canvas.height / 7)) {
                         opacityValue = 1 - (distance / 20000);
                         ctx.strokeStyle = 'rgba(255, 255, 255,' + opacityValue * 0.1 + ')';
@@ -727,4 +832,5 @@
         animate();
     </script>
 </body>
+
 </html>
