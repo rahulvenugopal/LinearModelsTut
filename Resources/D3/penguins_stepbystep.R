@@ -30,6 +30,13 @@ data %>%
     position = position_dodge(0.75)                      # dodge must match the jitterdodge dodge width above
   ) +
   
+  geom_line(
+    data      = median_bill_lengths,
+    aes(y = median_bill_length, group = species),        # one line per species connecting male and female medians
+    linewidth = 1,
+    alpha     = 0.6
+  ) +
+  
   penguins_theme + 
     theme(legend.position = 'none')
 
@@ -85,3 +92,5 @@ median_bill_lengths <- data %>%
     median_bill_length = median(bill_length_mm),
     .by = c(species, sex)
   )
+
+
