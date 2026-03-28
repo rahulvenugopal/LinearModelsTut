@@ -1,0 +1,11 @@
+Meal,ID,weight,Animals
+crab,11,12.9,octopus
+algae,12,3.1,fish
+algae,13,4.7,fish
+algae,14,3.4,fish
+algae,15,20.1,turtle
+krill,16,14.8,squid
+fish,17,20.1,squid
+krill,18,23.2,squid
+shrimp,19,25.8,squid
+krill,20,17.9,squid
