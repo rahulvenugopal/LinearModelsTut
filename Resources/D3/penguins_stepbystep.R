@@ -2,6 +2,8 @@ library(tidyverse)
 library(palmerpenguins)
 library(ggtext)
 
+colnames(penguins)
+
 data <- penguins %>% 
   drop_na() %>% 
   select(species,bill_length_mm,sex)
