@@ -225,7 +225,3 @@ dragons_long |>
 horntail   <- dragons_long |> filter(species == "hungarian_horntail")
 green      <- dragons_long |> filter(species == "welsh_green")
 shortsnout <- dragons_long |> filter(species == "swedish_shortsnout")
-
-# ==============================================================================
-# END
-# ==============================================================================

@@ -6,7 +6,7 @@
 library(tidyverse)
 
 # Load data --------------------------------------------------------------------
-trees <- read_csv("trees.csv")
+trees <- read_csv("data/trees.csv")
 glimpse(trees)    # shows column types as well as first few values
 
 
@@ -196,7 +196,3 @@ acer |> pull(AgeGroup) |> levels()
 # Distribution per quadrant
 acer |>
   count(Quadrant, AgeGroup)
-
-# ==============================================================================
-# END
-# ==============================================================================
