@@ -8,6 +8,29 @@ data <- penguins %>%
   drop_na() %>% 
   select(species,bill_length_mm,sex)
 
+# Setup a theme
+penguins_theme <- theme_minimal(base_size = 16) + # base font size for all text
+  
+  theme(
+    plot.title.position   = 'plot',
+    text = element_text(color = 'grey20'), 
+    
+    plot.title = element_text(
+      lineheight = 1, # tighter line spacing for multi-line titles
+      face       = 'bold'),
+    
+    panel.grid.minor = element_blank(), # remove minor gridlines to reduce clutter
+    panel.grid.major = element_line(color     = 'grey95',
+                                    linewidth = 0.75),
+    
+    legend.position = 'none')
+
+median_bill_lengths <- data %>%
+  summarise(
+    median_bill_length = median(bill_length_mm),
+    .by = c(species, sex)
+  )
+
 data %>% 
   ggplot(aes(x= species,
              y = bill_length_mm,
@@ -49,26 +72,3 @@ ggsave(
   height   = 5,
   bg       = 'white'
 )
-
-# Setup a theme
-penguins_theme <- theme_minimal(base_size = 16) + # base font size for all text
-  
-  theme(
-    plot.title.position   = 'plot',
-    text = element_text(color = 'grey20'), 
-    
-    plot.title = element_text(
-      lineheight = 1, # tighter line spacing for multi-line titles
-      face       = 'bold'),
-    
-    panel.grid.minor = element_blank(), # remove minor gridlines to reduce clutter
-    panel.grid.major = element_line(color     = 'grey95',
-                                    linewidth = 0.75),
-    
-    legend.position = 'none')
-
-median_bill_lengths <- data %>%
-  summarise(
-    median_bill_length = median(bill_length_mm),
-    .by = c(species, sex)
-  )
