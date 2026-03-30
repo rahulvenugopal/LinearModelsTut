@@ -397,79 +397,24 @@
 
         <section>
             <h2>Homework Downloads</h2>
-            <p style="font-size:0.9rem;color:var(--text-muted);margin-bottom:0.5rem;">🔒 These scripts are password-protected.</p>
             <div class="card-grid">
                 <div class="glass-card">
                     <h3>📄 data_manip_intro_tidyverse.R</h3>
                     <p>Introduction to tidy data manipulation — pipes, filter, select, mutate, and core dplyr workflows.</p>
-                    <p style="margin-top:0.5rem;"><a href="#" onclick="promptDownload('HW/data_manip_intro_tidyverse.R','data_manip_intro_tidyverse.R');return false;" style="color:var(--accent-solid);text-decoration:none;">Download →</a></p>
+                    <p style="margin-top:0.5rem;"><a href="HW/data_manip_intro_tidyverse.R" style="color:var(--accent-solid);text-decoration:none;" download>Download →</a></p>
                 </div>
                 <div class="glass-card">
                     <h3>📄 data_manip_efficient_tidyverse.R</h3>
                     <p>Efficient tidyverse patterns — across(), where(), rowwise operations, and performance-conscious wrangling.</p>
-                    <p style="margin-top:0.5rem;"><a href="#" onclick="promptDownload('HW/data_manip_efficient_tidyverse.R','data_manip_efficient_tidyverse.R');return false;" style="color:var(--accent-solid);text-decoration:none;">Download →</a></p>
+                    <p style="margin-top:0.5rem;"><a href="HW/data_manip_efficient_tidyverse.R" style="color:var(--accent-solid);text-decoration:none;" download>Download →</a></p>
                 </div>
                 <div class="glass-card">
                     <h3>📄 data_manip_advanced_tidyverse.R</h3>
                     <p>Advanced tidyverse techniques — joins, nested data, purrr mappings, and complex reshaping pipelines.</p>
-                    <p style="margin-top:0.5rem;"><a href="#" onclick="promptDownload('HW/data_manip_advanced_tidyverse.R','data_manip_advanced_tidyverse.R');return false;" style="color:var(--accent-solid);text-decoration:none;">Download →</a></p>
+                    <p style="margin-top:0.5rem;"><a href="HW/data_manip_advanced_tidyverse.R" style="color:var(--accent-solid);text-decoration:none;" download>Download →</a></p>
                 </div>
             </div>
         </section>
-
-        <!-- Password Modal -->
-        <div id="pwModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);align-items:center;justify-content:center;">
-            <div style="background:rgba(15,18,35,.95);border:1px solid var(--glass-border);border-radius:16px;padding:2rem 2.5rem;max-width:360px;width:90%;text-align:center;box-shadow:0 0 40px var(--accent-glow);">
-                <h3 style="font-family:'Inter',sans-serif;font-weight:600;font-size:1.1rem;color:#fff;margin-bottom:0.3rem;">🔐 Password Required</h3>
-                <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1.2rem;" id="pwFileName"></p>
-                <input type="password" id="pwInput" placeholder="Enter password" autocomplete="off"
-                    style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--glass-border);background:rgba(255,255,255,.06);color:var(--text-main);font-size:0.95rem;outline:none;transition:border-color .3s;margin-bottom:0.4rem;"
-                    onfocus="this.style.borderColor='var(--accent-solid)'" onblur="this.style.borderColor='var(--glass-border)'" />
-                <p id="pwError" style="font-size:0.8rem;color:#f87171;min-height:1.2em;margin-bottom:0.8rem;"></p>
-                <div style="display:flex;gap:0.8rem;justify-content:center;">
-                    <button onclick="closeModal()" style="padding:8px 20px;border-radius:10px;border:1px solid var(--glass-border);background:transparent;color:var(--text-muted);cursor:pointer;font-size:0.85rem;transition:all .3s;">Cancel</button>
-                    <button onclick="checkPassword()" style="padding:8px 20px;border-radius:10px;border:none;background:var(--accent-solid);color:#fff;cursor:pointer;font-size:0.85rem;font-weight:600;transition:all .3s;">Unlock</button>
-                </div>
-            </div>
-        </div>
-
-        <script>
-            let pendingFile = '';
-            function promptDownload(filePath, displayName) {
-                pendingFile = filePath;
-                document.getElementById('pwFileName').textContent = displayName;
-                document.getElementById('pwInput').value = '';
-                document.getElementById('pwError').textContent = '';
-                const modal = document.getElementById('pwModal');
-                modal.style.display = 'flex';
-                setTimeout(() => document.getElementById('pwInput').focus(), 100);
-            }
-            function closeModal() {
-                document.getElementById('pwModal').style.display = 'none';
-                pendingFile = '';
-            }
-            function checkPassword() {
-                if (document.getElementById('pwInput').value === 'ohno') {
-                    closeModal();
-                    const a = document.createElement('a');
-                    a.href = pendingFile;
-                    a.download = '';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                } else {
-                    document.getElementById('pwError').textContent = 'Incorrect password. Try again.';
-                    document.getElementById('pwInput').value = '';
-                    document.getElementById('pwInput').focus();
-                }
-            }
-            document.getElementById('pwInput').addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') checkPassword();
-            });
-            document.getElementById('pwModal').addEventListener('click', function(e) {
-                if (e.target === this) closeModal();
-            });
-        </script>
 
     </main>
 
