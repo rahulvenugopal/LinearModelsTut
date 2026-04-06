@@ -1,17 +1,21 @@
 library(tidyverse)
 library(palmerpenguins)
+library(easystats)
 
 data <- penguins %>%
   select(body_mass_g, species, sex, flipper_length_mm) %>%
   drop_na()
 
 
-# ── 1. Continuous Y ~ Continuous X ──────────────────────────────────────────
+# Model 1 -----------------------------------------------------------------
+
+# Continuous Y ~ Continuous X
 # Question: Can flipper length predict body mass?
-# Model: a straight line — body_mass = intercept + slope × flipper_length
 
 model1 <- lm(body_mass_g ~ flipper_length_mm, data = data)
 summary(model1)
+
+model_dashboard(model1)
 
 # Reading the summary:
 #
@@ -45,6 +49,8 @@ ggplot(data, aes(x = flipper_length_mm, y = body_mass_g)) +
 
 model2 <- lm(body_mass_g ~ sex, data = data)
 summary(model2)
+
+model_dashboard(model2)
 
 # Reading the summary:
 #

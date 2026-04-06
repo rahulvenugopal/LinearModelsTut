@@ -26,7 +26,7 @@
     <header class="page-header">
         <p class="day-number">Day 4</p>
         <h1>Simple Regression</h1>
-        <p class="subtitle">Dissect Y = β₀ + β₁X + ε term by term and mean-center X so your intercept finally makes sense.</p>
+        <p class="subtitle">From standard lines to S-curves: Master Linear and Logistic regression using the Palmer Penguins dataset.</p>
     </header>
 
     <main class="content">
@@ -34,16 +34,31 @@
             <h2>Topics Covered</h2>
             <div class="card-grid">
                 <div class="glass-card">
-                    <h3>The Linear Equation</h3>
-                    <p>Break down Y = β₀ + β₁X + ε — intercept, slope, and error, demystified.</p>
+                    <h3>Continuous Y ~ Continuous X</h3>
+                    <p>Standard Linear Regression: Predict body mass from flipper length. Intercept, slope, and residuals.</p>
                 </div>
                 <div class="glass-card">
-                    <h3>Least Squares</h3>
-                    <p>How R finds the best-fit line by minimizing the sum of squared residuals.</p>
+                    <h3>Continuous Y ~ Categorical X</h3>
+                    <p>Dummy Coding: How R handles factors (like sex) to estimate group differences in mass.</p>
                 </div>
                 <div class="glass-card">
-                    <h3>Mean-Centering</h3>
-                    <p>Why centering your predictor makes β₀ interpretable and reduces collinearity.</p>
+                    <h3>Categorical Y ~ Continuous X</h3>
+                    <p>Logistic Regression: Using GLM to predict binary outcomes (sex) with an S-shaped probability curve.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Visual Insights: Simpson's Paradox</h2>
+            <p>Simple regression can be misleading if you ignore group structure. Notice how the trend reverses when sex is included.</p>
+            <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+                <div class="glass-card" style="padding: 1rem;">
+                    <img src="overall.png" alt="Overall Trend" style="width: 100%; border-radius: 12px; border: 1px solid var(--glass-border); margin-bottom: 0.5rem;">
+                    <p style="text-align: center; color: var(--text-main); font-weight: 500;">Aggregated Data</p>
+                </div>
+                <div class="glass-card" style="padding: 1rem;">
+                    <img src="simpson.png" alt="Simpson's Paradox" style="width: 100%; border-radius: 12px; border: 1px solid var(--glass-border); margin-bottom: 0.5rem;">
+                    <p style="text-align: center; color: var(--text-main); font-weight: 500;">Disaggregated by Sex</p>
                 </div>
             </div>
         </section>
@@ -52,24 +67,27 @@
             <h2>Key Concepts</h2>
             <ul>
                 <li>Interpreting coefficients: what a one-unit change in X really means for Y</li>
-                <li>R² as proportion of variance explained — and its limitations</li>
-                <li>Residual plots for checking model assumptions</li>
-                <li>The lm() function in R: fitting, summary, and confidence intervals</li>
+                <li>Dummy coding: How categorical predictors are mapped to intercepts and offsets</li>
+                <li>Logistic regression (GLM): Modelling log-odds and predicting probabilities</li>
+                <li>Odds Ratios: Converting model estimates into intuitive risk/chance values</li>
             </ul>
         </section>
 
         <section class="homework">
             <h2>Homework</h2>
             <ul>
-                <li>Fit a simple regression predicting reaction time from stimulus intensity</li>
-                <li>Mean-center the predictor and compare the intercept before and after</li>
-                <li>Plot the regression line with confidence bands using ggplot2</li>
+                <li>Run <code>ThreeModels.R</code> to compare Linear vs Logistic approaches</li>
+                <li>Calculate the Odds Ratio for a 100g increase in body mass</li>
+                <li>Plot the logistic regression curve using <code>geom_line()</code> and predicted probabilities</li>
             </ul>
         </section>
         <section class="resources">
             <h2>Resources</h2>
             <ul>
-                <li><a href="#" style="color:var(--accent-solid);text-decoration:none;">Dummy Resource Bookmark</a></li>
+                <li><a href="https://www.youtube.com/watch?v=yIYKR4sgzI8" target="_blank" style="color:var(--accent-solid);text-decoration:none;">StatQuest: Logistic Regression</a></li>
+                <li><a href="https://setosa.io/ev/ordinary-least-squares-regression/" target="_blank" style="color:var(--accent-solid);text-decoration:none;">Interactive OLS Visualization</a></li>
+                <li><a href="https://www.statisticshowto.com/cooks-distance/" target="_blank" style="color:var(--accent-solid);text-decoration:none;">Understanding Cook's Distance</a></li>
+                <li><a href="ThreeModels.R" download style="color:var(--accent-solid);text-decoration:none;">ThreeModels.R</a></li>
             </ul>
         </section>
 
