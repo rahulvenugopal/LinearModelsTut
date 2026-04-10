@@ -211,6 +211,30 @@
             text-align: left;
         }
 
+        .glass-icon-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            backdrop-filter: blur(12px);
+            font-size: 1.5rem;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .glass-icon-btn:hover {
+            transform: translateY(-5px) scale(1.1) rotate(5deg);
+            border-color: var(--accent-solid);
+            box-shadow: 0 8px 25px var(--accent-glow);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
         .content ul {
             list-style: none;
             padding-left: 0;
@@ -284,6 +308,20 @@
 
             .card-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .footer {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+                padding-bottom: 2rem;
+            }
+
+            .footer-egg {
+                position: static !important;
+                justify-content: center;
+                width: 100%;
             }
         }
     </style>
@@ -418,15 +456,43 @@
 
     </main>
 
+    <!-- Map Scroll Modal -->
+    <div id="islandScroll" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5, 8, 20, 0.8); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: #fdf6e3; color: #4a3c31; padding: 2.5rem; border-radius: 3px; border: 2px solid #deb887; max-width: 450px; text-align: left; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.6); font-family: 'Playfair Display', serif; background-image: radial-gradient(circle at center, #fdf6e3 40%, #e6d3a8 100%);">
+            <span onclick="document.getElementById('islandScroll').style.display='none'" style="position: absolute; top: 10px; right: 15px; font-size: 1.7rem; cursor: pointer; color: #8a6c51; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">&times;</span>
+            <h2 style="margin-bottom: 1rem; border-bottom: 2px dashed #c19a6b; padding-bottom: 0.5rem; display: flex; align-items: center; gap: 10px; font-size: 1.5rem; color: #3b2f2f;">
+                <span style="font-size: 1.8rem;">🗺️</span> Geographic Quirk
+            </h2>
+            <p style="margin-bottom: 1rem; font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.6;">The Palmer Penguins possess a unique geographic distribution:</p>
+            <ul style="list-style-type: none; padding: 0; margin: 0; font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.8;">
+                <li style="margin-bottom: 0.5rem;"><b style="color: #8b4513;">Adélie:</b> The true explorers, found scattered across <i>all three</i> islands.</li>
+                <li style="margin-bottom: 0.5rem;"><b style="color: #8b4513;">Chinstrap:</b> Exclusively found nesting on <i>Dream Island</i>.</li>
+                <li style="margin-bottom: 0.5rem;"><b style="color: #8b4513;">Gentoo:</b> The royals, exclusively inhabiting <i>Biscoe Island</i>.</li>
+            </ul>
+        </div>
+    </div>
+
     <footer class="footer">
-        <div style="position: absolute; left: 2rem; bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
-            <a onclick="alert('🐧 Penguin Geographical Quirk:\n\n- Adélie penguins are the explorers and are found on all three islands.\n- Chinstrap penguins are exclusively found on Dream Island.\n- Gentoo penguins are exclusively found on Biscoe Island.')" style="text-decoration: none; font-size: 1.4rem; transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='scale(1.2) rotate(-15deg)'" onmouseout="this.style.transform='scale(1) rotate(0deg)'" title="Island secrets!">🐧</a>
+        <div class="footer-egg" style="position: absolute; left: 2rem; bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem;">
+            <a class="glass-icon-btn" onclick="document.getElementById('islandScroll').style.display='flex'" title="Island secrets!">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E2E8F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 0 3px rgba(226, 232, 240, 0.8));">
+                    <path d="M3 20h18"/>
+                    <path d="M5 20c0-4.5 3-7 7-7s7 2.5 7 7"/>
+                    <path d="M12 13V6"/>
+                    <path d="M12 6c2.5-2.5 6-1 5 3-2-1.5-3.5-1.5-5 0"/>
+                    <path d="M12 6c-2.5-2.5-6-1-5 3 2-1.5 3.5-1.5 5 0"/>
+                </svg>
+            </a>
             <span style="font-size: 0.8rem; font-style: italic; color: var(--text-muted);">Island secrets...</span>
         </div>
-        <a href="../../index.html">← Return to Course Home</a>
-        <div style="position: absolute; right: 2rem; bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+        <a href="../../index.html" style="position: relative; z-index: 10;">← Return to Course Home</a>
+        <div class="footer-egg" style="position: absolute; right: 2rem; bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem;">
             <span style="font-size: 0.8rem; font-style: italic; color: var(--text-muted);">Psst... open me</span>
-            <a href="https://cran.r-project.org/web/packages/datasauRus/vignettes/Datasaurus.html" target="_blank" style="text-decoration: none; font-size: 1.4rem; transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='scale(1.2) rotate(15deg)'" onmouseout="this.style.transform='scale(1) rotate(0deg)'" title="Crack open for a surprise!">🥚</a>
+            <a class="glass-icon-btn" href="https://cran.r-project.org/web/packages/datasauRus/vignettes/Datasaurus.html" target="_blank" title="Crack open for a surprise!">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E2E8F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 0 3px rgba(226, 232, 240, 0.8));">
+                    <path d="M12 22c-4.418 0-8-3.582-8-8C4 7 9 2 12 2s8 5 8 12c0 4.418-3.582 8-8 8z" />
+                </svg>
+            </a>
         </div>
     </footer>
 
