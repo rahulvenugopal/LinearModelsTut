@@ -42,4 +42,4 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:400}
 .modal-content{background:#fdf6e3;color:#4a3c31;padding:2.5rem;border-radius:3px;border:2px solid #deb887;max-width:450px;text-align:left;position:relative;box-shadow:0 10px 40px rgba(0,0,0,.6);font-family:'Playfair Display',serif;background-image:radial-gradient(circle at center,#fdf6e3 40%,#e6d3a8 100%)}
 .modal-close{position:absolute;top:10px;right:15px;font-size:1.7rem;cursor:pointer;color:#8a6c51;transition:transform .2s}
 .modal-close:hover{transform:scale(1.2)}
-@media(max-width:600px){.page-header{padding:3rem 5% 1.5rem}.content{padding:1.5rem 5%}.card-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.page-header{padding:3rem 5% 1.5rem}.content{padding:1.5rem 5%}.card-grid{grid-template-columns:1fr}.footer{display:flex;flex-direction:column;align-items:center;gap:1.2rem;padding:1.5rem 1rem}.footer-egg{position:static!important;left:auto!important;right:auto!important;bottom:auto!important;justify-content:center}}
