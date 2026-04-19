@@ -53,3 +53,51 @@ png("my_model_dashboard.png", width = 1200, height = 1000, res = 150)
 plot(check_model(model1))
 dev.off()
 
+# Bring in the intuition of regressing out -------------------------
+
+library(palmerpenguins)
+library(ggplot2)
+library(dplyr)
+library(patchwork)
+
+# 1. Clean the dataset (remove rows with missing values)
+df <- penguins %>% 
+  tidyr::drop_na(body_mass_g, flipper_length_mm, bill_length_mm)
+
+# Single predictor
+plot_naive <- ggplot(df, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(alpha = 0.5, color = "steelblue") +
+  geom_smooth(method = "lm", se = FALSE, color = "black", linewidth = 1.2) +
+  labs(title = "1. Raw Relationship",
+       subtitle = "Body Mass ~ Flipper Length",
+       x = "Raw Flipper Length (mm)",
+       y = "Raw Body Mass (g)") +
+  theme_minimal()
+
+# 1. Filter out Flipper Length from Body Mass (Outcome)
+model_mass <- lm(body_mass_g ~ flipper_length_mm, data = df)
+df$res_mass <- residuals(model_mass) # The pure mass
+
+# 2. Filter out Flipper Length from Bill Length (Predictor)
+model_bill <- lm(bill_length_mm ~ flipper_length_mm, data = df)
+df$res_bill <- residuals(model_bill) # The pure bill length
+
+# Step 3: Regress the Residuals on the Residuals
+final_model <- lm(res_mass ~ res_bill, data = df)
+
+# View the results
+summary(final_model)
+
+# 1. Filter out Bill Length from Body Mass (Outcome)
+model_mass <- lm(body_mass_g ~ bill_length_mm, data = df)
+df$res_mass <- residuals(model_mass) # The pure mass
+
+# 2. Filter out Bill Length from Flipper Length (Predictor)
+model_flipper <- lm(flipper_length_mm ~ bill_length_mm, data = df)
+df$res_flipper <- residuals(model_flipper) # The pure flipper length
+
+# Step 3: Regress the Residuals on the Residuals
+final_model <- lm(res_mass ~ res_flipper, data = df)
+
+# View the results
+summary(final_model)
