@@ -11,7 +11,7 @@ library(sjPlot)
 
 # Get data
 data <- penguins %>% 
-  select(body_mass_g, flipper_length_mm, bill_length_mm, species, sex) %>% 
+  select(body_mass_g, flipper_length_mm, bill_length_mm) %>% 
   drop_na()
 
 
@@ -39,6 +39,7 @@ summary(model1)
 # Loss of Meaning
 
 # Check for multicollinearity | Variance inflation Factor
+# values 1 to 5 is acceptable
 # values 5 to 10 is still okayish
 vif(model1) # VIF 1 means zero correlation
 
