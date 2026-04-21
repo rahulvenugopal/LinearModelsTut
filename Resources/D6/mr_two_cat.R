@@ -81,3 +81,26 @@ ggplot(new_grid, aes(x = species, y = pred_mass_g, group = sex, color = sex)) +
     y = "Predicted Body Mass (g)"
   ) +
   theme_minimal(base_size = 12)
+
+# Build that intuition muscle ---------------------------------------------
+
+model_cat <- lm(body_mass_g ~ species, data = penguins_cat)
+summary(model_cat)
+
+# R cannot do arithmetic on the word "Adelie". So it converts species
+# into dummy variables — one column per category, filled with 0s and 1s.
+
+# species       | is_Chinstrap | is_Gentoo
+# --------------+--------------+----------
+# Adelie        |      0       |     0
+# Chinstrap     |      1       |     0
+# Gentoo        |      0       |     1
+
+penguins_cat$res_lm <- residuals(model_cat)
+
+df <- penguins %>%
+  select(body_mass_g, species, sex) %>% 
+  drop_na() %>% 
+  group_by(species) %>%
+  mutate(res_manual = body_mass_g - mean(body_mass_g, na.rm = TRUE)) %>%
+  ungroup()
