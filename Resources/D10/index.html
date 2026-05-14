@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Day 10 – The Showdown | Data Analysis for Neuroscientists</title>
+    <title>Day 10 – When Your Predictor Disappears | Data Analysis for Neuroscientists</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../shared.css">
 </head>
@@ -18,39 +18,39 @@
     </nav>
     <header class="page-header">
         <p class="day-number">Day 10</p>
-        <h1>The Showdown</h1>
-        <p class="subtitle">Write lmer syntax and watch "significant" effects vanish when random structure is correctly specified.</p>
+        <h1>When Your Predictor Disappears</h1>
+        <p class="subtitle">Decompose causal pathways and understand when predictors disappear using mediation analysis.</p>
     </header>
     <main class="content">
         <section>
             <h2>Topics Covered</h2>
             <div class="card-grid">
-                <div class="glass-card"><h3>lmer() Syntax</h3><p>Master the formula notation: fixed effects + (random slopes | grouping factor).</p></div>
-                <div class="glass-card"><h3>Random Slopes</h3><p>Allow the effect of your predictor to vary across subjects — the key to honest inference.</p></div>
-                <div class="glass-card"><h3>Model Selection</h3><p>Compare random-intercept vs. random-slope models and understand convergence issues.</p></div>
+                <div class="glass-card"><h3>Coefficient Collapse</h3><p>Understand why significant predictors can suddenly vanish in a multiple regression when adding new variables.</p></div>
+                <div class="glass-card"><h3>Mediation Analysis</h3><p>Decompose the total effect into direct and indirect pathways using the mediation framework.</p></div>
+                <div class="glass-card"><h3>Partial Regression</h3><p>Visualize the unique variance of predictors after removing the linear influence of other variables.</p></div>
             </div>
         </section>
         <section>
             <h2>Key Concepts</h2>
             <ul>
-                <li>The maximal random structure justified by design (Barr et al., 2013)</li>
-                <li>Why "significant" p-values from lm() can vanish with lmer()</li>
-                <li>Dealing with convergence warnings: optimizer choices and simplification strategies</li>
-                <li>Reporting mixed model results: fixed effects, random effects variance, and model fit</li>
+                <li>Baron & Kenny's framework for causal mediation</li>
+                <li>Direct vs. Indirect effects (ACME and ADE)</li>
+                <li>Bootstrapping for significance testing of mediated paths</li>
+                <li>Full vs. Partial mediation</li>
             </ul>
         </section>
         <section class="homework">
             <h2>Homework</h2>
             <ul>
-                <li>Fit a model with random intercepts AND random slopes using lmer()</li>
-                <li>Compare results with a naïve lm() — do the conclusions change?</li>
-                <li>Write a mini-report summarizing your mixed model in APA format</li>
+                <li>Fit a multiple regression and observe coefficient collapse</li>
+                <li>Perform a formal mediation analysis using the <code>mediation</code> package</li>
+                <li>Create path diagrams and partial regression plots to visualize your findings</li>
             </ul>
         </section>
         <section class="resources">
             <h2>Resources</h2>
             <ul>
-                <li><a href="#" style="color:var(--accent-solid);text-decoration:none;">Dummy Resource Bookmark</a></li>
+                <li><a href="https://rpubs.com/rhlvenugopal/1431452" target="_blank" style="color:var(--accent-solid);text-decoration:none;">When Your Predictor Disappears: Mediation vs. Multiple Regression</a></li>
             </ul>
         </section>
 
